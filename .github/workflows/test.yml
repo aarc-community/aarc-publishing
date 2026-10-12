@@ -1,0 +1,46 @@
+# Render the example guideline with the extension and check it. The example
+# uses every element a guideline can contain, so a change to the extension that
+# breaks one of them fails here, before a repository of guidelines takes it.
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: devenv
+      - name: Install devenv
+        run: nix profile install nixpkgs#devenv
+
+      # devenv test runs the enterTest of devenv.nix, which checks the versions
+      # of the tools and that the extension is where a guidelines repository
+      # looks for it.
+      - name: Check the toolchain
+        run: devenv test
+
+      - name: Render and check the example guideline
+        run: devenv shell -- just ci
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: example
+          path: generated/example/**/*.pdf
+          if-no-files-found: error

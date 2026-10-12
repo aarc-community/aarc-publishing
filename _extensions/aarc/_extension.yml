@@ -1,0 +1,54 @@
+# The AARC guideline design, as a Quarto format. A project uses it with
+#
+#     format: aarc-typst
+#
+# The extension must sit at _extensions/aarc/ in the project root, because the
+# typst template reads its design files by their path from the project root.
+title: AARC Guideline
+author: AARC Community
+version: 0.1.0
+quarto-required: ">=1.10.0"
+contributes:
+  formats:
+    typst:
+      # The notices of the second page. A guideline can override any of them in
+      # its front matter. The keys carry the suffix -notice because Quarto reads
+      # copyright and funding as scholarly metadata of its own and rewrites them.
+      copyright-notice: "© members of the AARC community"
+      licence-notice:
+        "This work is licensed under a [Creative Commons Attribution CC-BY 4.0
+        Licence](https://creativecommons.org/licenses/by/4.0/)"
+      funding-notice:
+        "This work received funding from the AARC-TREE project
+        (HORIZON-INFRA-2023-DEV-01 call) and other sources."
+
+      lang: en-GB
+      number-sections: true
+      section-numbering: "1.1.1"
+      toc: true
+      toc-depth: 3
+      link-citations: true
+      tbl-cap-location: bottom
+      fig-cap-location: bottom
+      highlight-style: monochrome
+
+      # Citations are resolved by split-references.lua, not by pandoc's own
+      # pass, so citeproc is off.
+      citeproc: false
+      csl: csl/label.csl
+      # list-table.lua runs first, so that the citations in the tables it
+      # writes are resolved with the others.
+      filters:
+        - path: filters/list-table.lua
+          at: pre-quarto
+        - path: filters/split-references.lua
+          at: pre-quarto
+        - path: filters/appendix.lua
+          at: pre-quarto
+
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+      font-paths:
+        - fonts
+      keep-typ: false

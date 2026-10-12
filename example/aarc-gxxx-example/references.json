@@ -1,0 +1,40 @@
+[
+  {
+    "id": "RFC2119",
+    "citation-label": "RFC2119",
+    "type": "report",
+    "title": "Key words for use in RFCs to Indicate Requirement Levels",
+    "author": [{ "family": "Bradner", "given": "Scott" }],
+    "publisher": "IETF",
+    "number": "RFC 2119, BCP 14",
+    "issued": { "date-parts": [[1997, 3]] },
+    "DOI": "10.17487/RFC2119"
+  },
+  {
+    "id": "RFC8174",
+    "citation-label": "RFC8174",
+    "type": "report",
+    "title": "Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words",
+    "author": [{ "family": "Leiba", "given": "Barry" }],
+    "publisher": "IETF",
+    "number": "RFC 8174, BCP 14",
+    "issued": { "date-parts": [[2017, 5]] },
+    "DOI": "10.17487/RFC8174"
+  },
+  {
+    "id": "AARC-G045",
+    "citation-label": "AARC-G045",
+    "type": "report",
+    "title": "AARC Blueprint Architecture 2019",
+    "publisher": "AARC Community",
+    "URL": "https://aarc-community.org/guidelines/aarc-g045/"
+  },
+  {
+    "id": "OID-Fed",
+    "citation-label": "OID-Fed",
+    "type": "report",
+    "title": "OpenID Federation 1.0",
+    "publisher": "OpenID Foundation",
+    "URL": "https://openid.net/specs/openid-federation-1_0.html"
+  }
+]

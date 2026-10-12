@@ -1,0 +1,11 @@
+# The Quarto project of this repository. It renders the example guideline with
+# the extension in _extensions/aarc/, which is how the extension is tested.
+# Guidelines themselves live in their own repository.
+
+project:
+  type: default
+  output-dir: generated
+  render:
+    - example/*/*.qmd
+
+format: aarc-typst

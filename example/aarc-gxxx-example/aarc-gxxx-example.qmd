@@ -1,0 +1,170 @@
+---
+title: "Example Guideline for the AARC Publishing Pipeline (AARC-GXXX)"
+document-code: "AARC-GXXX"
+publication-date: "2026-10-12"
+# An author is a name, or a name with an ORCID iD, which the cover links to.
+# Give the iD alone, without https://orcid.org/. This one is ORCID's test record.
+author:
+  - name: "Jane Doe (ed)"
+    orcid: "0000-0002-1825-0097"
+  - "John Smith"
+doi: "10.5281/zenodo.0000000"
+community: "Architecture Area"
+status: "DRAFT"
+keywords: ["AARC", "guideline", "example"]
+abstract: |
+  This document is an example of an AARC guideline written for the publishing
+  pipeline. It shows each element that a guideline can contain: the cover
+  fields, normative key words, terminology, tables, figures, code, citations,
+  cross-references and lettered appendices. Copy this directory to start a new
+  guideline.
+bibliography: references.json
+normative-references:
+  - RFC2119
+  - RFC8174
+---
+
+<!-- Comments in HTML form are dropped from the PDF. -->
+
+# Introduction {#sec-introduction}
+
+This document is an example. It is the reference for how a guideline is written
+so that the publishing pipeline renders it in the AARC design. The text of each
+section states the convention that the section shows.
+
+## Notational Conventions {#sec-notational-conventions}
+
+The key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT,
+RECOMMENDED, NOT RECOMMENDED, MAY and OPTIONAL in this document are to be
+interpreted as described in BCP 14 [@RFC2119; @RFC8174] when, and only when,
+they appear in all capitals, as shown here.
+
+## Terminology {#sec-terminology}
+
+This section is normative. A term is written as a definition list:
+
+Trust Authority : A third party which is trusted to identify entities
+[@OID-Fed].
+
+SP-IdP-Proxy : The component of an AAI that acts as a Service Provider towards
+the Identity Providers and as an Identity Provider towards the services, as
+defined by the AARC Blueprint Architecture [@AARC-G045].
+
+## Scope of this document {#sec-scope}
+
+The headings carry no numbers in the source. The pipeline numbers them, and a
+reference to a section is written as `@sec-scope`, which renders as @sec-scope.
+
+# Trust Model {#sec-trust-model}
+
+@fig-trust-model shows two proxies that trust a common Trust Authority. A figure
+is an image file in the `figures/` directory of the guideline. SVG keeps the
+text sharp at any size.
+
+![Simple federation model based on the use of a common Trust
+Authority.](figures/trust-model.svg){#fig-trust-model
+width="75%"}
+
+A requirement is written in the body text and states its profile in brackets,
+for example:
+
+- [G100.1] A Proxy MUST publish an Entity Configuration.
+- [G100.2] A Proxy SHOULD validate the Trust Marks of its peers.
+
+@tbl-registration compares the two methods of client registration. A table whose
+cells hold only a line of text is a pipe table, as @tbl-registration is.
+
+| Aspect       | Automatic registration          | Explicit registration                 |
+| ------------ | ------------------------------- | ------------------------------------- |
+| Mechanism    | No prior registration           | The RP registers before the first use |
+| Client ID    | The federation entity ID of RP  | Assigned by the OP                    |
+| Requirements | The OP MUST resolve trust chain | The OP MUST resolve trust chain       |
+
+: Client registration methods {#tbl-registration}
+
+A table whose cells hold a list or several paragraphs is a list table, as
+@tbl-trade-offs is. Each item of the list is a row, each item of a row is a
+cell, and the first row is the header. The paragraph before the list is the
+caption. A grid table holds the same content, but prettier flattens it, so a
+guideline does not use one.
+
+::: {.list-table #tbl-trade-offs tbl-colwidths="[20,40,40]"}
+
+Trade-offs of the registration methods
+
+- - Aspect
+  - Automatic registration
+  - Explicit registration
+- - Pros
+  - - No need for prior contact
+    - Fully dynamic
+  - - More control
+    - Allows policy checks before registration
+- - Cons
+  - - Policies are evaluated at runtime
+  - - Requires client-side registration logic
+    - The registration expires and has to be renewed
+
+:::
+
+Every `:::` line stands alone, with a blank line before and after it. Without
+them, prettier joins the line to the text beside it, and the block is lost.
+
+::: {.callout-note title="Note"}
+
+A callout sets a passage apart from the normative text. It is not normative.
+
+:::
+
+# Entity Configuration {#sec-entity-configuration}
+
+Code is written as a fenced block. The language name is optional.
+
+```json
+{
+  "iss": "https://proxy.example.org",
+  "sub": "https://proxy.example.org",
+  "authority_hints": ["https://ta.example.org"],
+  "metadata": {
+    "openid_provider": {
+      "issuer": "https://proxy.example.org"
+    }
+  }
+}
+```
+
+Inline code, such as `authority_hints`, is set in the same font.
+
+# References {.unnumbered}
+
+<!-- The bibliography is placed here. An empty fenced div would do the same,
+but prettier joins its two fences into one line, which breaks it. -->
+
+<div id="refs"></div>
+
+# Examples of Trust Marks {.appendix #sec-trust-marks}
+
+The first appendix carries the class `appendix` on its heading. Every top-level
+heading after it is lettered, so this one is Appendix A, and @sec-trust-marks
+resolves to it.
+
+## Trust Mark Types {#sec-trust-mark-types}
+
+A subsection of an appendix is numbered A.1.
+
+::: {.landscape}
+
+# Summary of Required Features {#sec-summary}
+
+A wide table is placed on a landscape page with a `landscape` div. The heading
+goes inside the div, so that it stands on the same page as the table.
+
+| Role            | Entity Configuration                | Client Registration       | Trust Marks                | Metadata Policies    | Endpoints               |
+| --------------- | ----------------------------------- | ------------------------- | -------------------------- | -------------------- | ----------------------- |
+| Trust Authority | MUST publish `federation_entity`    | N/A                       | [G100.2] MUST list issuers | [G100.2] MAY enforce | [REQ] Fetch, [OPT] List |
+| Proxy (OP role) | MUST publish `openid_provider`      | MUST support both methods | [G100.2] MUST validate     | [G100.2] MUST apply  | [REQ] Registration      |
+| Proxy (RP role) | MUST publish `openid_relying_party` | MUST implement one method | [G100.2] MUST validate     | [G100.2] MUST apply  |                         |
+
+: Features by participant role {#tbl-summary}
+
+:::

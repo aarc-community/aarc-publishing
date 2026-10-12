@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never">
+  <info>
+    <title>Bracketed shorthand</title>
+    <id>urn:aarc-publishing:csl:label</id>
+    <updated>2026-08-02T00:00:00+00:00</updated>
+  </info>
+  <citation>
+    <layout prefix="[" suffix="]" delimiter="], [">
+      <text variable="citation-label"/>
+    </layout>
+  </citation>
+  <bibliography hanging-indent="false" entry-spacing="0" second-field-align="flush">
+    <sort><key variable="citation-label"/></sort>
+    <layout>
+      <text variable="citation-label" prefix="[" suffix="]"/>
+      <group delimiter=", " prefix=" ">
+        <names variable="author">
+          <name and="text" delimiter=", " initialize-with="." name-as-sort-order="all" sort-separator=", "/>
+          <substitute><text variable="publisher"/></substitute>
+        </names>
+        <text variable="title" font-style="italic"/>
+        <group delimiter=" "><text term="version" text-case="capitalize-first"/><text variable="version"/></group>
+        <date variable="issued"><date-part name="day" suffix=" "/><date-part name="month" suffix=" "/><date-part name="year"/></date>
+        <text variable="note"/>
+        <text variable="DOI" prefix="DOI "/>
+        <text variable="URL" prefix="&#60;" suffix="&#62;"/>
+      </group>
+    </layout>
+  </bibliography>
+</style>
